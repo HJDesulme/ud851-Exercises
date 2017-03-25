@@ -15,9 +15,12 @@
  */
 package com.example.android.datafrominternet.utilities;
 
+import android.net.Uri;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -45,8 +48,28 @@ public class NetworkUtils {
      * @return The URL to use to query the weather server.
      */
     public static URL buildUrl(String githubSearchQuery) {
-        // TODO (1) Fill in this method to build the proper Github query URL
-        return null;
+        // COMPLETED (1) Fill in this method to build the proper Github query URL
+
+        Uri androidUri = Uri.parse(GITHUB_BASE_URL).buildUpon().appendQueryParameter(PARAM_QUERY, githubSearchQuery).appendQueryParameter(PARAM_SORT, sortBy).build();
+        //.parse creates the new Uri object (w/ the GITHUB_BASE_URL string as the original locator)
+        //.buildUpon() creates a Uri.builder object from of the Uri object
+            //The Uri.builder is used to append the Query Parameters (w/ .appendQueryParameter(key,value))
+        //.build is used to turn the Uri.builder object back into a Uri object
+        //This final Uri object is given a reference called "androidUri" (variable)
+
+        URL githubSearchURL = null;
+        //Creates an empty Java URL object w/ a reference called "githubSearchURL"
+
+        try {
+            githubSearchURL = new URL(androidUri.toString());
+            //Passes the (now fully built) Uri object value through to the Java URL object
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            //Handles (deals w/) the checked exception by printing a Stack Trace
+        }
+
+        return githubSearchURL;
+        //Returns the new Java URL object
     }
 
     /**
