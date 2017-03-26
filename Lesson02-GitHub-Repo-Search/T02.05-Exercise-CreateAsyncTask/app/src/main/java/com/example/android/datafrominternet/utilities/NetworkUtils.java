@@ -71,16 +71,16 @@ public class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection(); //Generated url is used for Http connection object
         try {
-            InputStream in = urlConnection.getInputStream();
+            InputStream in = urlConnection.getInputStream(); //Generated Url connection object is used to create an input stream
 
-            Scanner scanner = new Scanner(in);
+            Scanner scanner = new Scanner(in); //Scanner is created from generated Url connection input stream object... lengthy
             scanner.useDelimiter("\\A");
 
             boolean hasInput = scanner.hasNext();
             if (hasInput) {
-                return scanner.next();
+                return scanner.next(); //If scanner url connection stream object has a token (characters to read), return it all as a string
             } else {
                 return null;
             }
